@@ -2,10 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 # Create your views here.
+def index(request):
+    return render(request, "index.html")
 
 def register(request):
     # return render(request, 'userauth/register.html')
-    return HttpResponse("Hello, world. You're at the userauth register page.")
+    return render(request, 'userauth/signup.html') 
 
 
 def login(request):

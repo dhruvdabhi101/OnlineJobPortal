@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <title>My Site</title>
+    {% load static %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'indexcss.css' %}" />
+  </head>
+  <body class="bg-yellow-50">
+    <div class="container mx-auto">
+      <div class="login font-mono text-right text-4xl">
+        <a href="userauth/login.html">Already a User ?</a>
+      </div>
+      <div class="flex flex-col items-center justify-center h-screen">
+        <h1 class="text-9xl text-center heading">GetThatJob</h1>
+        <p class="font-mono text-5xl">Land That Dream Job</p>
+        <div class="hire font-mono sm:flex sm:flex-col">
+          <button class="text-4xl border-black onohver p-4">
+            Want to get Hired ?
+          </button>
+          <button class="text-4xl border-black onohver p-4">
+            Want to Hire ?
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
