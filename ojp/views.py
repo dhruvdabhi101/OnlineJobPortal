@@ -11,8 +11,8 @@ def register(request):
 
 
 def login(request):
-    # return render(request, 'userauth/login.html')
-    return HttpResponse("Hello, world. You're at the userauth login page.")
+    return render(request, 'userauth/login.html')
+    
 
 def logout(request):
     # return render(request, 'userauth/logout.html')
@@ -21,3 +21,10 @@ def logout(request):
 def forgotpassword(request):
     # return render(request, 'userauth/forgotpassword.html')
     return HttpResponse("Hello, world. You're at the userauth forgotpassword page.")    
+
+def registerRecruiter(request):
+    return render(request, 'userauth/registerRecruiter.html')
+
+def registerJobSeeker(request):
+    pass
+    # return render(request, 'userauth/registerJobSeeker.html')

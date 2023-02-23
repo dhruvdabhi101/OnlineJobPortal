@@ -1,0 +1,14 @@
+.onohver:hover {
+  border-bottom: 7px solid black;
+  border-left: 7px solid black;
+  transition: 0.2s;
+}
+.onohver {
+  background-color: white;
+  border: 2px solid black;
+}
+
+.heading {
+  font-family: "Poppins", sans-serif;
+  margin: 40px;
+}

@@ -1,0 +1,26 @@
+.heading {
+  font-family: "Poppins", sans-serif;
+  margin: 40px;
+}
+.hire {
+  position: relative;
+  margin: 30px;
+}
+.hire button {
+  cursor: pointer;
+  margin: 10px;
+}
+.login {
+  margin: 10px;
+}
+/* rounded-lg hover:bg-blue-400 hover:text-white transition duration-200 hover:shadow-lg p-2 */
+/* rounded-lg hover:bg-blue-400 hover:text-white transition duration-200 hover:shadow-lg p-2 */
+.onohver:hover {
+  border-bottom: 7px solid black;
+  border-left: 7px solid black;
+  transition: 0.2s;
+}
+.onohver {
+  background-color: white;
+  border: 2px solid black;
+}
