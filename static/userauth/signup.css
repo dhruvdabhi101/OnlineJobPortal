@@ -1,9 +1,9 @@
-.onohver:hover {
+.on-hover:hover {
   border-bottom: 7px solid black;
   border-left: 7px solid black;
   transition: 0.2s;
 }
-.onohver {
+.on-hover {
   background-color: white;
   border: 2px solid black;
 }

@@ -20,16 +20,19 @@
         <h1 class="text-9xl text-center heading">GetThatJob</h1>
         <p class="font-mono text-5xl">Land That Dream Job</p>
         <div class="hire font-mono sm:flex sm:flex-col">
-          <button class="text-4xl border-black onohver p-4">
-            Want to get Hired ?
-          </button>
-          <button class="text-4xl border-black onohver p-4">
+          
+            <button class="text-4xl border-black on-hover p-4">
+              <a href={% url 'register-jobseeker' %}>
+              Want to get Hired ?
+              </a>
+            </button>
+          
+          <button class="text-4xl border-black on-hover p-4">
             <a href={% url 'register-recruiter' %}>
             Want to Hire ?
             </a>
           </button>
-        </div>
+         </div>
       </div>
-    </div>
   </body>
 </html>

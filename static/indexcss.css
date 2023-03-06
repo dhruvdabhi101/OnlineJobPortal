@@ -15,12 +15,12 @@
 }
 /* rounded-lg hover:bg-blue-400 hover:text-white transition duration-200 hover:shadow-lg p-2 */
 /* rounded-lg hover:bg-blue-400 hover:text-white transition duration-200 hover:shadow-lg p-2 */
-.onohver:hover {
+.on-hover {
+  background-color: white;
+  border: 2px solid black;
+}
+.on-hover:hover {
   border-bottom: 7px solid black;
   border-left: 7px solid black;
   transition: 0.2s;
-}
-.onohver {
-  background-color: white;
-  border: 2px solid black;
 }
