@@ -12,5 +12,5 @@ urlpatterns = [
 
     # for recruiter
     path('register-recruiter/', views.register_recruiter, name='register-recruiter'),
-    
+    path('logout', views.logout, name='logout') 
 ]

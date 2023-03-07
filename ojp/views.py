@@ -10,12 +10,15 @@ from django.contrib import messages
 def index(request):
     return render(request, "index.html")
 
+# login
 def login(request):
     if request.method == 'POST':
+        # getting info from post request
         username = request.POST['username']
         password = request.POST['password']
         role = request.POST['role']
-        if role == 'job_seeker':
+        # authenticating credintials
+        if role == 'jobseeker':
             if Jobseeker.objects.filter(jobseeker_username=username, jobseeker_password=password).exists():
                 request.session['username'] = username
                 request.session['role'] = role
@@ -30,6 +33,8 @@ def login(request):
                 return redirect('home')
             else:
                 return render(request, 'userauth/login.html', {'error': 'Invalid credentials'})
+        else:
+            return render(request,'userauth/login.html', {'error': "Select Role"})
 
     else :
         return render(request, 'userauth/login.html')
@@ -42,7 +47,7 @@ def register_recruiter(request):
         confirm_password = request.POST['confirm_password']
         if password == confirm_password:
             # check if username already exists
-            if Recruiter.objects.filter(recruiter_username=username).exists():
+            if Recruiter.objects.filter(recruiter_username=username).exists() and Recruiter.objects.filter(recruiter_email=email).exists():
                 messages.info(request, 'Username already exists')
                 return render(request, 'userauth/register_recruiter.html', {'error': 'Username already exists'})
             elif Recruiter.objects.filter(recruiter_email=email).exists(): # check if email already exists
@@ -71,7 +76,7 @@ def register_jobseeker(request):
         confirm_password = request.POST['confirm_password']
         if password == confirm_password:
             # check if username already exists
-            if Jobseeker.objects.filter(jobseeker_username=username).exists():
+            if Jobseeker.objects.filter(jobseeker_username=username).exists() or Jobseeker.objects.filter(jobseeker_email=email).exists():
                 messages.info(request, 'Username already exists')
                 return render(request, 'userauth/register_jobseeker.html', {'error': 'Username already exists'})
             elif Jobseeker.objects.filter(jobseeker_email=email).exists(): # check if email already exists
@@ -90,3 +95,10 @@ def register_jobseeker(request):
 
     if request.method == 'GET':
         return render(request, 'userauth/register_jobseeker.html')
+    
+
+
+def logout(request):
+    del request.session['username']
+    del request.session['role']
+    return redirect('login')

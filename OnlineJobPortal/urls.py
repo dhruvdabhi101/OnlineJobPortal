@@ -17,8 +17,11 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import include
 import ojp.urls
+import mainfeed.urls
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('ojp.urls')),
+    path('', include('mainfeed.urls')),
 ]
