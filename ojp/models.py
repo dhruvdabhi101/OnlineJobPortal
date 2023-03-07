@@ -1,49 +1,59 @@
 from django.db import models
-from django.contrib.auth.models import User
 
 # Create your models here.
-class Applicant(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=10)
-    image = models.ImageField(upload_to="Applicants/uploads/")
-    gender = models.CharField(max_length=10)
-    type = models.CharField(max_length=15)
-    password = models.CharField(max_length=20)
- 
-    def __str__(self):
-        return self.user.first_name
+class Jobseeker(models.Model):
+    jobseeker_id = models.AutoField(primary_key=True, default=1)
+    jobseeker_username = models.CharField(max_length=50, default="abc")
+    jobseeker_name = models.CharField(max_length=50, null=True)
+    jobseeker_email = models.CharField(max_length=50, default="default")
+    jobseeker_password = models.CharField(max_length=50, default="default")
+    jobseeker_phone = models.CharField(max_length=50, null=True)
 
+    def __str__(self):
+        return self.jobseeker_name
+    
 class Recruiter(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=10)
-    image = models.ImageField(upload_to="Recruiters/uploads/")
-    gender = models.CharField(max_length=10)
-    company_name = models.CharField(max_length=50)
-    password = models.CharField(max_length=20)
+    recruiter_id = models.AutoField(primary_key=True, default=1)
+    recruiter_username = models.CharField(max_length=50, default="abc")
+    recruiter_name = models.CharField(max_length=50, null=True)
+    recruiter_email = models.CharField(max_length=50, default="default")
+    recruiter_password = models.CharField(max_length=50, default="default")
+    recruiter_phone = models.CharField(max_length=50, null=True)
 
     def __str__(self):
-        return self.user.first_name
+        return self.recruiter_name
     
+
 class Job(models.Model):
-    recruiter = models.ForeignKey(Recruiter, on_delete=models.CASCADE)
-    title = models.CharField(max_length=50)
-    description = models.CharField(max_length=200)
-    location = models.CharField(max_length=50)
-    salary = models.IntegerField()
-    experience = models.IntegerField()
-    skills = models.CharField(max_length=100)
-    vacancies = models.IntegerField()
-    type = models.CharField(max_length=10)
-    date = models.DateField(auto_now=True)
+    job_id = models.AutoField(primary_key=True, default=1)
+    job_title = models.CharField(max_length=50, null=True)
+    job_description = models.CharField(max_length=50, null=True)
+    job_salary = models.CharField(max_length=50, null=True)
+    job_type = models.CharField(max_length=50, null=True)
+    job_category = models.CharField(max_length=50, null=True)
+    job_recruiter = models.ForeignKey(Recruiter, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.title
+        return self.job_title
     
-class Applied(models.Model):
-    applicant = models.ForeignKey(Applicant, on_delete=models.CASCADE)
-    job = models.ForeignKey(Job, on_delete=models.CASCADE)
-    date = models.DateField(auto_now=True)
-    status = models.CharField(max_length=10)
+
+
+class AppliedJob(models.Model):
+    applied_job_id = models.AutoField(primary_key=True)
+    applied_jobseeker = models.ForeignKey(Jobseeker, on_delete=models.CASCADE)
+    job_id = models.ForeignKey(Job, on_delete=models.CASCADE)
+    applied_job_status = models.CharField(max_length=50, null=True)
 
     def __str__(self):
-        return self.job.title + " - " + self.applicant.user.first_name
+        return self.applied_job_status
+    
+
+class Resume(models.Model):
+    jobseeker_id = models.ForeignKey(Jobseeker, on_delete=models.CASCADE)
+    address = models.CharField(max_length=50, null=True)
+    education = models.CharField(max_length=50, null=True)
+    experience = models.CharField(max_length=50, null=True)
+    skills = models.CharField(max_length=50 , null=True)
+    resume = models.FileField(upload_to='resume/', null=True)
+    def __str__(self):
+        return self.address
