@@ -8,6 +8,12 @@ from django.contrib import messages
 
 # Create your views here.
 def index(request):
+    if request.method == "GET":
+        if 'role' in request.session:
+            if request.session['role'] == 'recruiter':
+                return render(request, 'mainfeed/recruiter_home.html')
+            else:
+                return render(request, 'mainfeed/jobseeker_home.html')
     return render(request, "index.html")
 
 # login
@@ -37,6 +43,8 @@ def login(request):
             return render(request,'userauth/login.html', {'error': "Select Role"})
 
     else :
+        if 'role' in request.session:
+            return redirect('')
         return render(request, 'userauth/login.html')
 
 def register_recruiter(request):

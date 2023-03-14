@@ -1,0 +1,18 @@
+{% extends 'base_recruiter.html' %} {% block action %}View Jobs{% endblock %}
+{%block actionurl%} / {% endblock %} {% block content %}
+
+<form action="addjob" method="post" class="my-auto">
+  {% csrf_token %}
+  <input type="text" placeholder="Title" name="job_title" />
+  <input type="text" placeholder="Description" name="job_description" />
+  <input type="text" placeholder="Salary" name="job_salary" />
+  <input type="text" placeholder="Remote/OnSite" name="job_type" />
+  <input
+    type="text"
+    placeholder="Internship/FullTime/PartTime"
+    name="job_category"
+  />
+  <input type="submit" />
+</form>
+
+{% endblock %}

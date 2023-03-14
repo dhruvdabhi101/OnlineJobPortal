@@ -22,6 +22,6 @@ import mainfeed.urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('ojp.urls')),
     path('', include('mainfeed.urls')),
+    path('', include('ojp.urls')),
 ]
