@@ -11,14 +11,14 @@ def home(request):
     if role == None:
         return redirect('login')
     elif role == 'recruiter':
-        return render(request, 'mainfeed/recruiter_home.html')
+        jobs_posted = list(Job.objects.filter(job_recruiter=Recruiter.objects.filter(recruiter_username=username).first()).all().values())
+        context = {
+            'jobs_posted': jobs_posted
+        }
+        return render(request, 'mainfeed/recruiter_home.html', context)
     else:
-        # get jobs posted in dictionry 
-        jobs = Job.objects.filter(job_title = "SE").values()
-        print(jobs)
-        return render(request, 'mainfeed/jobseeker_home.html', context={
-            "jobs" : jobs
-        })
+        # get jobs posted in the last 7 days 
+        pass
 
 
 def addjob(request):
@@ -28,7 +28,7 @@ def addjob(request):
         recruiter_username = request.session['username']
         # find recruiter id from username
 
-        recruiter_id = Recruiter.objects.filter(recruiter_username=recruiter_username).first().recruiter_id
+        recruiter = Recruiter.objects.filter(recruiter_username=recruiter_username).first()
 
 
         job_title = request.POST['job_title']
@@ -36,7 +36,17 @@ def addjob(request):
         job_salary = int(request.POST['job_salary'])
         job_type = request.POST['job_type']
         job_category = request.POST['job_category']
-        # recruiter_id = request.session['recruiter_id']
-        job = Job(job_title=job_title, job_description=job_description, job_salary=job_salary, job_type=job_type, job_category=job_category, job_recruiter_id=recruiter_id)
-        job.save()
+
+        job = Job.create(job_title, job_description, job_salary, job_type, job_category, recruiter)
+
+        
         return redirect('home')
+
+
+def job(request, job_id):
+    job = Job.objects.filter(job_id=job_id).first()
+    if job == None:
+        return HttpResponse("job not found")
+    else:
+        return render(request, 'mainfeed/job.html', {'job': job})
+    # return HttpResponse("job found")

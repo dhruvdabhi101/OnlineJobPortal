@@ -25,7 +25,7 @@ class Recruiter(models.Model):
     
 
 class Job(models.Model):
-    job_id = models.AutoField(primary_key=True, default=1)
+    job_id = models.AutoField(primary_key=True)
     job_title = models.CharField(max_length=50, null=True)
     job_description = models.CharField(max_length=50, null=True)
     job_salary = models.CharField(max_length=50, null=True)
@@ -35,6 +35,12 @@ class Job(models.Model):
 
     def __str__(self):
         return self.job_title
+
+    def create(title, description, salary, type, category, recruiter):
+        job = Job(job_title=title, job_description=description, job_salary=salary, job_type=type, job_category=category, job_recruiter=recruiter)
+        job.save()
+        return job
+
     
 
 

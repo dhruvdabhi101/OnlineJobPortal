@@ -1,0 +1,21 @@
+{% extends 'base_jobseeker.html' %} 
+
+{% block content %}
+<div class="bg-white border-[1px] border-black p-5 flex  flex-col gap-[30px] w-[70%] h-[70vh]">
+<div>
+    <h1 class="text-6xl">{{job.job_title}}</h1>
+</div>
+    <div class="flex flex-col gap-[15px]">
+        <h3  class="text-2xl">{{job.job_description}}</h3>
+        <p class="text-2xl ">{{job.job_location}}</p>
+        <p class="text-2xl  "><b>Job Type</b>: {{job.job_type}}</p>
+        <p class="text-2xl ""><b>Salary</b> : {{job.job_salary}}</p>
+        <Category class="text-2xl "><b>Category</b> : {{job.job_category}}</p>
+
+    </div>
+     
+<div class="text-white bg-blue-500 rounded-md p-3 hover:bg-blue-700 text-center w-36"> <a href="">Apply</a></button> </div>
+</div>
+
+
+{% endblock %}

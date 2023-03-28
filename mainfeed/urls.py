@@ -8,5 +8,6 @@ urlpatterns = [
 
     # recruiter
     path('addjob',views.addjob,name='addjob'),
+    path('job/<int:job_id>/',views.job,name='job'),
     
 ]
