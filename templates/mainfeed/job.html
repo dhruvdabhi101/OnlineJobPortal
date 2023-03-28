@@ -14,8 +14,10 @@
         <h3  class="text-2xl"><b>Description</b>: {{job.job_description}}</h3>
 
     </div>
-     
-<div class="text-white bg-blue-500 rounded-md p-3 hover:bg-blue-700 text-center w-36"> <a href="">Apply</a></button> </div>
+     {%if request.session.role == 'jobseeker' %}
+        <div class="text-white bg-blue-500 rounded-md p-3 hover:bg-blue-700 text-center w-36"> <a href="">Apply</a></button> </div>
+    {%endif%}
+
 </div>
 
 
