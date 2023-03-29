@@ -63,11 +63,6 @@ class Job(models.Model):
         job.delete()
         return job
 
-    def search_job(title):
-        job = Job.objects.filter(job_title=title)
-        return job
-    
-
     
 
 

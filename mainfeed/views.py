@@ -18,6 +18,7 @@ def home(request):
         return render(request, 'mainfeed/recruiter_home.html', context)
     else:
         # get jobs posted in the last 7 days 
+        return render(request, 'mainfeed/jobseeker_home.html')
         pass
 
 
@@ -37,7 +38,7 @@ def addjob(request):
         job_type = request.POST['job_type']
         job_category = request.POST['job_category']
 
-        job = Job.create(job_title, job_description, job_salary, job_type, job_category, recruiter)
+        job = Job.create_job(job_title, job_description, job_salary, job_type, job_category, recruiter)
 
         
         return redirect('home')
@@ -98,3 +99,16 @@ def delete_job(request,job_id):
     else:
         job.delete()
         return redirect('home')
+
+def search(request):
+    return render(request, 'mainfeed/searchjob.html')
+
+def search_job(request):
+    if request.method == 'POST':
+        query = request.POST['search']
+        if query == '':
+            return render(request, 'mainfeed/searchjob.html')
+        jobs = list(Job.objects.filter(job_title__icontains=query).all().values())
+        return render(request, 'mainfeed/searchjob.html', {'jobs': jobs})
+    else:
+        return render(request, 'mainfeed/searchjob.html')
