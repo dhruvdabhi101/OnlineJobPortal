@@ -23,6 +23,8 @@ def home(request):
 
 
 def addjob(request):
+    if request.session['role'] is None:
+        return redirect('login')
     if request.method == 'GET':
         return render(request, 'mainfeed/addjob.html')
     else:
@@ -45,6 +47,8 @@ def addjob(request):
 
 
 def job(request, job_id):
+    if request.session['role'] is None:
+        return redirect('login')
     job = Job.objects.filter(job_id=job_id).first()
     if job == None:
         return HttpResponse("job not found")
@@ -53,6 +57,8 @@ def job(request, job_id):
     # return HttpResponse("job found")
 
 def update_job(request,job_id):
+    if request.session['role'] is None:
+        return redirect('login')
     job = Job.objects.filter(job_id=job_id).first()
     if job == None:
         return HttpResponse("job not found")
@@ -101,6 +107,8 @@ def delete_job(request,job_id):
         return redirect('home')
 
 def search(request):
+    if request.session['role'] is None:
+        return redirect('login')
     return render(request, 'mainfeed/searchjob.html')
 
 def search_job(request):
@@ -112,3 +120,19 @@ def search_job(request):
         return render(request, 'mainfeed/searchjob.html', {'jobs': jobs})
     else:
         return render(request, 'mainfeed/searchjob.html')
+
+def profile(request):
+    if request.session['role'] is None:
+        return redirect('login')
+    if request.session['role'] == 'recruiter':
+        recruiter = Recruiter.objects.filter(recruiter_username=request.session['username']).first()
+        context = {
+            'recruiter': recruiter
+        }
+        return render(request, 'mainfeed/recruiter_profile.html', context)
+    else:
+        jobseeker = Jobseeker.objects.filter(jobseeker_username=request.session['username']).first()
+        context = {
+            'jobseeker': jobseeker
+        }
+        return render(request, 'mainfeed/jobseeker_profile.html', context)
