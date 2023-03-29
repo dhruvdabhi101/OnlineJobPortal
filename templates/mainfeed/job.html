@@ -1,4 +1,4 @@
-{% extends 'base_jobseeker.html' %} 
+{% extends 'base_jobseeker.html' %} {% block action %}Post Job{% endblock %} {%block actionurl%} /addjob {% endblock %} 
 
 {% block content %}
 <div class="bg-white border-[1px] border-black p-5 flex  flex-col gap-[30px] w-[70%] h-[70vh]">
@@ -16,6 +16,12 @@
     </div>
      {%if request.session.role == 'jobseeker' %}
         <div class="text-white bg-blue-500 rounded-md p-3 hover:bg-blue-700 text-center w-36"> <a href="">Apply</a></button> </div>
+    {%else%}
+    <div class="flex flex-row gap-3 p-2">
+     {% comment %} <form method="GET" action="{%url 'applied_job' {{job.job_id}} %}"><button class="text-white bg-blue-500 rounded-md p-3 hover:bg-blue-700 text-center w-36">View Applicants</button></form>  {% endcomment %}
+    {% comment %} <form method="POST" action="{%url 'update_job' {{job.job_id}} %}"><button class="text-white bg-blue-500 rounded-md p-3 hover:bg-blue-700 text-center w-36" type="submit">Update Details</button></form> {% endcomment %}
+    <form method="POST" action="{%url 'delete_job' job.job_id%}">{% csrf_token %}<button class="text-white bg-blue-500 rounded-md p-3 hover:bg-blue-700 text-center w-36" type="submit">Delete Job</button></form>
+    </div>
     {%endif%}
 
 </div>
