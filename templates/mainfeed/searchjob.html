@@ -1,0 +1,29 @@
+{%extends 'base_jobseeker.html'%} {%block actionurl%} /home {%endblock%}
+ {% block action %} Home {% endblock %} {% block content %}
+
+<div class="flex flex-col items-center justify-center  h-screen">
+  <form action="search_job" method="POST">
+    {%csrf_token%}
+    <input type="text" name="search" placeholder="Search Job" class="p-3"/>
+    <input type="submit" value="Search" class="p-3 text-white bg-blue-600 rounded-md hover:bg-blue-700"/>
+  </form>
+
+  {%if jobs is not None %}
+        {%for i in jobs%}
+        <a href="{% url 'job' i.job_id %}">
+            <div class="on-hover p-3 my-2 w-[300px]">
+                <h6 class="text-2xl">{{i.job_title}}</h6>
+                <p class="text-gray-500">Type : {{i.job_type}}</p>
+                <p class="text-gray-500">$ {{i.job_salary}}</p>
+            </div>
+        </a>
+
+
+        {%endfor%}
+    {% else %}
+    <div>
+        No Jobs Found
+    </div>
+    {%endif%}
+</div>
+{%endblock%}
