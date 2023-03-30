@@ -173,8 +173,9 @@ def update_profile(request):
         
 
 def jobseeker(request, username):
-    user = Jobseeker.objects.filter(jobseeker_username = username).first().values()
-    return render(request, 'mainfeed/jobseeker.html', {'user': user})
+    user = Jobseeker.objects.filter(jobseeker_username = username).first()
+    resume = Resume.objects.filter(jobseeker_id=user).first()
+    return render(request, 'mainfeed/jobseeker.html', {'user': user, 'resume': resume})
 
 def apply(request, job_id):
     if request.session['role'] is None:
@@ -189,13 +190,24 @@ def apply(request, job_id):
         return redirect('home')
 
     
-def update_application_status(request, status, application_id):
-    application = AppliedJob.objects.filter(application_id=application_id).first()
-    if application == None:
+def update_status(request,application_id):
+
+    application = AppliedJob.objects.filter(applied_job_id=application_id).first()
+    # get user from session
+    user = Jobseeker.objects.filter(jobseeker_id = application.applied_jobseeker_id).first()
+    resume = Resume.objects.filter(jobseeker_id=user).first()
+    if application == None and user == None:
         return HttpResponse("Error")
     else:
-        application.update_status(status)
-        return redirect('home')
+        if request.method == 'GET':
+            return render(request, 'mainfeed/update_status.html', {'user': user, 'resume': resume,  'application': application})
+        else:
+            status = request.POST['status']
+            application.update_status(status)
+            return redirect('home')
+
+
+    # get resume from user
 
 # def delete_applied_job(request, application_id):
 #     application = AppliedJob.objects.filter(application_id=application_id).first()
@@ -209,7 +221,10 @@ def applied_jobs(request):
     if request.session['role'] is None:
         return redirect('login')
     jobseeker = Jobseeker.objects.filter(jobseeker_username=request.session['username']).first()
-    applications = AppliedJob.objects.filter(jobseeker_id=jobseeker).all().values()
+    applications = AppliedJob.objects.filter(applied_jobseeker=jobseeker).all().values()
+    for i in applications:
+        job = Job.objects.filter(job_id=i['applied_job_id']).first()
+        i['job_title'] = job.job_title
     return render(request, 'mainfeed/applied_jobs.html', {'applications': applications})
 
 def application(request, job_id):
