@@ -1,0 +1,45 @@
+{%extends 'base_jobseeker.html'%}
+{%block content%}
+<form action="update_profile" method="POST" class="my-auto">
+    {% csrf_token %}
+    <div class="flex flex-col gap-5">
+      <input
+        type="text"
+        placeholder="Name"
+        name="name"
+        class="p-3"
+      />
+      <input
+        type="text"
+        placeholder="Phone No"
+        name="phone_no"
+        class="p-3"
+      />
+      <input
+        type="text"
+        placeholder="Address"
+        name="address"
+        class="p-3"
+      />
+      <input
+        type="text"
+        placeholder="Education"
+        class="p-3"
+        name="education"
+      />
+      <input
+        type="text"
+        placeholder="Experience"
+        class="p-3"
+        name="experience"
+      />
+      <input
+        type="text"
+        placeholder="skills"
+        class="p-3"
+        name="skills"
+      />
+      <input type="submit" class="text-white bg-blue-500 rounded-md p-3" />
+    </div>
+  </form>
+  {%endblock%}

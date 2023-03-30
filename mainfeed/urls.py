@@ -14,5 +14,9 @@ urlpatterns = [
 
     # jobseeker
     path('search_job', views.search_job, name='search_job'),
+    path('profile', views.profile, name="profile"),
+    path('jobseeker/<username>', views.jobseeker, name="jobseeker"),
+    path('update_profile', views.update_profile, name="update_profile"),
+    
     
 ]

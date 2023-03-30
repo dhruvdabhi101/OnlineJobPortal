@@ -9,6 +9,13 @@ class Jobseeker(models.Model):
     jobseeker_password = models.CharField(max_length=50, default="default")
     jobseeker_phone = models.CharField(max_length=50, null=True)
 
+    def update_phone(self, phone):
+        self.jobseeker_phone = phone
+        self.save()
+    def update_name(self, name):
+        self.jobseeker_name = name
+        self.save()
+
     def __str__(self):
         return self.jobseeker_name
     
@@ -111,12 +118,12 @@ class Resume(models.Model):
     def __str__(self):
         return self.address
 
-    def create_resume(jobseeker, address, education, experience, skills, resume):
-        resume = Resume(jobseeker_id=jobseeker, address=address, education=education, experience=experience, skills=skills, resume=resume)
+    def create_resume(self, jobseeker, address, education, experience, skills):
+        resume = Resume(jobseeker_id=jobseeker, address=address, education=education, experience=experience, skills=skills)
         resume.save()
         return resume
 
-    def update_resume(jobseeker, address, education, experience, skills, resume):
+    def update_resume(self, jobseeker, address, education, experience, skills):
         resume = Resume.objects.get(jobseeker_id=jobseeker)
         if address:
             resume.address = address
@@ -126,7 +133,5 @@ class Resume(models.Model):
             resume.experience = experience
         if skills:
             resume.skills = skills
-        if resume:
-            resume.resume = resume
         resume.save()
     

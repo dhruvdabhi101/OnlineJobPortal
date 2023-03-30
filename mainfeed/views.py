@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import redirect
-from ojp.models import Jobseeker, Recruiter, Job
+from ojp.models import Jobseeker, Recruiter, Job, Resume
 from django.contrib import messages 
 from django.http import HttpResponse
  
@@ -17,9 +17,12 @@ def home(request):
         }
         return render(request, 'mainfeed/recruiter_home.html', context)
     else:
-        # get jobs posted in the last 7 days 
-        return render(request, 'mainfeed/jobseeker_home.html')
-        pass
+        # get only 5 jobs from database
+        jobs = list(Job.objects.all().values())
+        context = {
+            'jobs': jobs
+        }
+        return render(request, 'mainfeed/jobseeker_home.html', context)
 
 
 def addjob(request):
@@ -67,7 +70,7 @@ def update_job(request,job_id):
             return render(request, 'mainfeed/update_job.html', {'job': job})
         else:
             try:
-                job.update_job(job, request.POST['job_title'], request.POST['job_description'], request.POST['job_salary'], request.POST['job_type'], request.POST['job_category'], job.job_recruiter)
+                job.update_job(job_id, request.POST['job_title'], request.POST['job_description'], request.POST['job_salary'], request.POST['job_type'], request.POST['job_category'], job.job_recruiter)
             except:
                 return HttpResponse("error")
             return redirect('home')
@@ -132,7 +135,44 @@ def profile(request):
         return render(request, 'mainfeed/recruiter_profile.html', context)
     else:
         jobseeker = Jobseeker.objects.filter(jobseeker_username=request.session['username']).first()
+        resume = Resume.objects.filter(jobseeker_id=jobseeker).first()
         context = {
-            'jobseeker': jobseeker
+            'jobseeker': jobseeker,
+            'resume': resume
         }
         return render(request, 'mainfeed/jobseeker_profile.html', context)
+
+def update_profile(request):
+    if request.session['role'] is None:
+        return redirect('login')
+    else:
+        if request.method == 'GET':
+            return render(request, 'mainfeed/update_profile.html')
+        else:
+            if request.session['role'] == 'jobseeker':
+                jobseeker = Jobseeker.objects.filter(jobseeker_username=request.session['username']).first()
+                jobseeker_id = jobseeker.jobseeker_id
+                resume = Resume.objects.filter(jobseeker_id=jobseeker_id).first()
+                address = request.POST['address']
+                phone = request.POST['phone_no']
+                education = request.POST['education']
+                skills = request.POST['skills']
+                experience = request.POST['experience']
+
+                if resume == None:
+                    jobseeker.update_name(request.POST['name'])
+                    jobseeker.update_phone(phone)
+                    res = Resume()
+                    res = res.create_resume(jobseeker, address, education, experience, skills)
+                else:
+                    if request.POST['name'] != '':
+                        jobseeker.update_name(request.POST['name'])
+                    if phone is not "":
+                        jobseeker.update_phone(jobseeker.phone)
+                    res = resume.update_resume(jobseeker_id, address, education, experience, skills)
+                return redirect('profile')
+        
+
+def jobseeker(request, username):
+    user = Jobseeker.objects.filter(jobseeker_username = username).first().values()
+    return HttpResponse("Hello" )
