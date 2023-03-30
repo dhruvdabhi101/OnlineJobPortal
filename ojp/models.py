@@ -82,16 +82,15 @@ class AppliedJob(models.Model):
     def __str__(self):
         return self.applied_job_status
     
-    def apply_job(jobseeker, job, status):
+    def apply_job(self,jobseeker, job, status="Applied"):
         applied_job = AppliedJob(applied_jobseeker=jobseeker, job_id=job, applied_job_status=status)
         applied_job.save()
         return applied_job
 
-    def update_status(jobseeker, job, status):
-        applied_job = AppliedJob.objects.get(applied_jobseeker=jobseeker, job_id=job)
-        applied_job.applied_job_status = status
-        applied_job.save()
-        return applied_job
+    def update_status(self, status):
+        self.applied_job_status = status
+        self.save()
+        return self
     
     def delete(jobseeker, job):
         applied_job = AppliedJob.objects.get(applied_jobseeker=jobseeker, job_id=job)

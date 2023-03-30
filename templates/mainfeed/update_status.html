@@ -1,0 +1,39 @@
+<html>
+    <head>
+      <title>GetThatJob | {% block title %}{% endblock %}</title>
+      {% load static %}
+      <script src="https://cdn.tailwindcss.com"></script>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap"
+        rel="stylesheet"
+      />
+      <link rel="stylesheet" href="{% static 'indexcss.css' %}" />
+    </head>
+    <body class="bg-yellow-50">
+        <div class="flex flex-col justify-center items-center">
+ <div class="bg-white border-[1px] border-black p-5 flex flex-col gap-[30px] w-[70%] h-screen justify-center items-center">
+
+    <div class="flex flex-col text-xl justify-center items-center gap-[30px]">
+       <div class='text-2xl'> <b>Name: </b>{{user.jobseeker_name}} </div>
+        <div><b>Email: </b> {{user.jobseeker_email}} </div>
+         <div><b>Phone No.: </b> {{user.jobseeker_phone}} </div>
+         <div><b>Address: </b> {{resume.address}}</div>
+         <div><b>Expreience: </b> {{resume.experience}}</div>
+        <div><b>Education: </b>{{resume.education}}</div>
+        <div><b>Skills: </b>{{resume.skills}}</div>
+
+    </div>
+    <div>
+        <form action="{%url 'update_status' application.applied_job_id%}" method="POST">
+          {% csrf_token %}
+            <input type="text" name="status" class='p-3' placeholder="Status">
+            <input type="submit" value="Update Status" class='p-3 text-white bg-blue-500'>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+
+</div>
