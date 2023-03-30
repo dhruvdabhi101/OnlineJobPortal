@@ -17,9 +17,12 @@ def home(request):
         }
         return render(request, 'mainfeed/recruiter_home.html', context)
     else:
-        # get jobs posted in the last 7 days 
-        return render(request, 'mainfeed/jobseeker_home.html')
-        pass
+        # get only 5 jobs from database
+        jobs = list(Job.objects.all().values())
+        context = {
+            'jobs': jobs
+        }
+        return render(request, 'mainfeed/jobseeker_home.html', context)
 
 
 def addjob(request):

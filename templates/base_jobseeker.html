@@ -65,7 +65,7 @@
             >
               <li>
                 <a
-                  href="home/"
+                  href="{% url 'home' %}"
                   class="block py-2 pl-3 pr-4 {%block homecolor %}{% endblock %} rounded hover:bg-yellow-100"
                   aria-current="page"
                   >Home</a
@@ -73,7 +73,7 @@
               </li>
               <li>
                 <a
-                  href="#"
+                  href="{% url 'profile' %}"
                   class="block py-2 pl-3 pr-4 {%block profilecolor %}{% endblock %} rounded hover:bg-yellow-100"
                   >Profile</a
                 >
