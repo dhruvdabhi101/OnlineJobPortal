@@ -82,7 +82,7 @@ class AppliedJob(models.Model):
     def __str__(self):
         return self.applied_job_status
     
-    def apply_job(jobseeker, job, status):
+    def apply_job(self,jobseeker, job, status="Applied"):
         applied_job = AppliedJob(applied_jobseeker=jobseeker, job_id=job, applied_job_status=status)
         applied_job.save()
         return applied_job

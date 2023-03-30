@@ -17,6 +17,7 @@ urlpatterns = [
     path('profile', views.profile, name="profile"),
     path('jobseeker/<username>', views.jobseeker, name="jobseeker"),
     path('update_profile', views.update_profile, name="update_profile"),
-    
+    path('apply/<int:job_id>', views.apply, name="apply"),
+    path('application/<int:job_id>', views.application, name="application")
     
 ]

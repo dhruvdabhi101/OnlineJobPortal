@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import redirect
-from ojp.models import Jobseeker, Recruiter, Job, Resume
-from django.contrib import messages 
+from ojp.models import Jobseeker, Recruiter, Job, Resume, AppliedJob
 from django.http import HttpResponse
  
 def home(request):
@@ -175,4 +174,52 @@ def update_profile(request):
 
 def jobseeker(request, username):
     user = Jobseeker.objects.filter(jobseeker_username = username).first().values()
-    return HttpResponse("Hello" )
+    return render(request, 'mainfeed/jobseeker.html', {'user': user})
+
+def apply(request, job_id):
+    if request.session['role'] is None:
+        return redirect('login')
+    job = Job.objects.filter(job_id=job_id).first()
+    jobseeker = Jobseeker.objects.filter(jobseeker_username=request.session['username']).first()
+    if job == None and jobseeker == None:
+        return HttpResponse("Error")
+    else:
+        application = AppliedJob()
+        application = application.apply_job(jobseeker, job)
+        return redirect('home')
+
+    
+def update_application_status(request, status, application_id):
+    application = AppliedJob.objects.filter(application_id=application_id).first()
+    if application == None:
+        return HttpResponse("Error")
+    else:
+        application.update_status(status)
+        return redirect('home')
+
+# def delete_applied_job(request, application_id):
+#     application = AppliedJob.objects.filter(application_id=application_id).first()
+#     if application == None:
+#         return HttpResponse("Error")
+#     else:
+#         application.delete()
+#         return redirect('home')
+
+def applied_jobs(request):
+    if request.session['role'] is None:
+        return redirect('login')
+    jobseeker = Jobseeker.objects.filter(jobseeker_username=request.session['username']).first()
+    applications = AppliedJob.objects.filter(jobseeker_id=jobseeker).all().values()
+    return render(request, 'mainfeed/applied_jobs.html', {'applications': applications})
+
+def application(request, job_id):
+    if request.session['role'] is None:
+        return redirect('login')
+    job = Job.objects.filter(job_id=job_id).first()
+    applications = list(AppliedJob.objects.filter(job_id=job).all().values())
+    for i in applications:
+        jobseeker = Jobseeker.objects.filter(jobseeker_id=i['applied_jobseeker_id']).first()
+        i['jobseeker_name'] = jobseeker.jobseeker_name
+        i['jobseeker_username'] = jobseeker.jobseeker_username
+
+    return render(request, 'mainfeed/applications.html', {'applications': applications})
