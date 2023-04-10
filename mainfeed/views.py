@@ -151,7 +151,7 @@ def update_profile(request):
             if request.session['role'] == 'jobseeker':
                 jobseeker = Jobseeker.objects.filter(jobseeker_username=request.session['username']).first()
                 jobseeker_id = jobseeker.jobseeker_id
-                resume = Resume.objects.filter(jobseeker_id=jobseeker_id).first()
+                resume = Resume.objects.filter(jobseeker_id=jobseeker).first()
                 address = request.POST['address']
                 phone = request.POST['phone_no']
                 education = request.POST['education']
@@ -163,12 +163,15 @@ def update_profile(request):
                     jobseeker.update_phone(phone)
                     res = Resume()
                     res = res.create_resume(jobseeker, address, education, experience, skills)
+
                 else:
-                    if request.POST['name'] != '':
+                    if request.POST['name'] is not "":
                         jobseeker.update_name(request.POST['name'])
-                    if phone is not "":
-                        jobseeker.update_phone(jobseeker.phone)
+                    if phone is not '':
+                        jobseeker.update_phone(phone)
                     res = resume.update_resume(jobseeker_id, address, education, experience, skills)
+                return redirect('profile')
+            else:
                 return redirect('profile')
         
 
@@ -221,11 +224,14 @@ def applied_jobs(request):
     if request.session['role'] is None:
         return redirect('login')
     jobseeker = Jobseeker.objects.filter(jobseeker_username=request.session['username']).first()
-    applications = AppliedJob.objects.filter(applied_jobseeker=jobseeker).all().values()
-    for i in applications:
-        job = Job.objects.filter(job_id=i['applied_job_id']).first()
-        i['job_title'] = job.job_title
-    return render(request, 'mainfeed/applied_jobs.html', {'applications': applications})
+    applications = list(AppliedJob.objects.filter(applied_jobseeker=jobseeker).all().values())
+    try: 
+        for i in applications:
+            job = Job.objects.filter(job_id=i['applied_job_id']).first()
+            i['job_title'] = job.job_title
+            return render(request, 'mainfeed/applied_jobs.html', {'applications': applications})
+    except:
+        return redirect('home')
 
 def application(request, job_id):
     if request.session['role'] is None:

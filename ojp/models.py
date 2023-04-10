@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib import admin
 
 # Create your models here.
 class Jobseeker(models.Model):
@@ -19,6 +20,7 @@ class Jobseeker(models.Model):
     def __str__(self):
         return self.jobseeker_name
     
+
 class Recruiter(models.Model):
     recruiter_id = models.AutoField(primary_key=True, default=1)
     recruiter_username = models.CharField(max_length=50, default="abc")
@@ -31,6 +33,7 @@ class Recruiter(models.Model):
         return self.recruiter_name
     
 
+
 class Job(models.Model):
     job_id = models.AutoField(primary_key=True)
     job_title = models.CharField(max_length=50, null=True)
@@ -41,7 +44,11 @@ class Job(models.Model):
     job_recruiter = models.ForeignKey(Recruiter, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.job_title
+        if self.job_id == None:
+            return "job"
+        else:
+            return str(self.job_id)
+    
 
     def create_job(title, description, salary, type, category, recruiter):
         job = Job(job_title=title, job_description=description, job_salary=salary, job_type=type, job_category=category, job_recruiter=recruiter)
@@ -70,7 +77,6 @@ class Job(models.Model):
         job.delete()
         return job
 
-    
 
 
 class AppliedJob(models.Model):
@@ -104,7 +110,6 @@ class AppliedJob(models.Model):
     def search_job(job):
         applied_job = AppliedJob.objects.filter(job_id=job)
         return applied_job
-
     
 
 class Resume(models.Model):
@@ -120,17 +125,16 @@ class Resume(models.Model):
     def create_resume(self, jobseeker, address, education, experience, skills):
         resume = Resume(jobseeker_id=jobseeker, address=address, education=education, experience=experience, skills=skills)
         resume.save()
-        return resume
+        return
 
     def update_resume(self, jobseeker, address, education, experience, skills):
-        resume = Resume.objects.get(jobseeker_id=jobseeker)
         if address:
-            resume.address = address
+            self.address = address
         if education:
-            resume.education = education
+            self.education = education
         if experience:
-            resume.experience = experience
+            self.experience = experience
         if skills:
-            resume.skills = skills
-        resume.save()
-    
+            self.skills = skills
+        self.save()
+   

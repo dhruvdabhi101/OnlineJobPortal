@@ -1,29 +1,42 @@
-{%extends 'base_jobseeker.html'%} {%block actionurl%} /home {%endblock%}
- {% block action %} Home {% endblock %} {% block content %}
+{%extends 'base_jobseeker.html'%} {%block actionurl%} /home {%endblock%} 
+{%block action %} Home {% endblock %} {% block content %}
 
-<div class="bg-white border-[1px] border-black p-5 flex  flex-col gap-[30px] w-[70%] h-[70vh]">
-    {%if resume is None%}
-    <div class="flex flex-col gap-[10px]">
-        <h1 class="text-2xl font-bold">Resume not found</h1>
-        <p class="text-lg">You have not uploaded your resume yet. Please upload your resume to apply for jobs.</p>
-        <a href="update_profile" class="bg-[#0a66c2] text-white p-2 rounded-md">Upload Resume</a>
-    </div>
-    {%endif%}
-    {%if resume is not None%}
-    <div class="flex flex-col text-xl justify-center items-center gap-[30px]">
-       <div> <b>Name: </b>{{jobseeker.jobseeker_name}} </div>
-        <div><b>Email: </b> {{jobseeker.jobseeker_email}} </div>
-         <div><b>Phone No.: </b> {{jobseeker.jobseeker_phone}} </div>
-         <div><b>Address: </b> {{resume.address}}</div>
-         <div><b>Expreience: </b> {{resume.experience}}</div>
-        <div><b>Education: </b>{{resume.education}}</div>
-        <div><b>Skills: </b>{{resume.skills}}</div>
+<div
+  class="bg-white border-[1px] border-black p-5 flex flex-col gap-[30px] w-[70%] h-[70vh]"
+>
+  {%if resume is None%}
+  <div class="flex flex-col gap-[10px]">
+    <h1 class="text-2xl font-bold">Resume not found</h1>
+    <p class="text-lg">
+      You have not uploaded your resume yet. Please upload your resume to apply
+      for jobs.
+    </p>
+    <a href="update_profile" class="bg-[#0a66c2] text-white p-2 rounded-md"
+      >Upload Resume</a
+    >
+  </div>
+  {%endif%} {%if resume is not None%}
+  <div class="flex flex-col text-xl justify-center items-center gap-[30px]">
+    <div><b>Name: </b>{{jobseeker.jobseeker_name}}</div>
+    <div><b>Email: </b> {{jobseeker.jobseeker_email}}</div>
+    <div><b>Phone No.: </b> {{jobseeker.jobseeker_phone}}</div>
+    <div><b>Address: </b> {{resume.address}}</div>
+    <div><b>Expreience: </b> {{resume.experience}}</div>
+    <div><b>Education: </b>{{resume.education}}</div>
+    <div><b>Skills: </b>{{resume.skills}}</div>
 
-    <button class="text-white bg-blue-600 hover:bg-blue-700 rounded-md p-3 w-[300px] mt-5"><a href="update_profile">Update Profile</a></button>
-    </div>
-    {%endif%}
-
-
+    <button
+      class="text-white bg-blue-600 hover:bg-blue-700 rounded-md p-2 w-[300px] mt-5"
+    >
+      <a href="{%url 'update_profile'%}">Update Profile</a>
+    </button>
+    <button
+      class="text-white bg-blue-600 hover:bg-blue-700 rounded-md p-2 w-[300px]"
+    >
+      <a href="{%url 'logout'%}">Logout</a>
+    </button>
+  </div>
+  {%endif%}
 </div>
 
 {%endblock%}

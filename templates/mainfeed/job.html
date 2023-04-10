@@ -14,15 +14,16 @@
         <h3  class="text-2xl"><b>Description</b>: {{job.job_description}}</h3>
 
     </div>
-     {%if request.session.role == 'jobseeker' %}
-        <div class="text-white bg-blue-500 rounded-md p-3 hover:bg-blue-700 text-center w-36"> <a href="{%url 'apply' job.job_id%}">Apply</a></button> </div>
-    {%else%}
+     {%if request.session.role == 'recruiter' %}
     <div class="flex flex-row gap-3 p-2">
 
      <form method="GET" action="{%url 'application' job.job_id %}"><button class="text-white bg-blue-500 rounded-md p-3 hover:bg-blue-700 text-center w-36">View Applicants</button></form> 
     {% comment %} <form method="POST" action="{%url 'update_job' {{job.job_id}} %}"><button class="text-white bg-blue-500 rounded-md p-3 hover:bg-blue-700 text-center w-36" type="submit">Update Details</button></form> {% endcomment %}
     <form method="POST" action="{%url 'delete_job' job.job_id%}">{% csrf_token %}<button class="text-white bg-blue-500 rounded-md p-3 hover:bg-blue-700 text-center w-36" type="submit">Delete Job</button></form>
     </div>
+    {%else%}
+
+        <div class="text-white bg-blue-500 rounded-md p-3 hover:bg-blue-700 text-center w-36"> <a href="{%url 'apply' job.job_id%}">Apply</a></button> </div>
     {%endif%}
 
 </div>

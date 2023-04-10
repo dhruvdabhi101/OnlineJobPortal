@@ -19,7 +19,7 @@
         <div
           class="container flex flex-wrap items-center justify-between mx-auto"
         >
-          <a href="/home" class="flex items-center">
+          <a href="{%url 'home'%}" class="flex items-center">
             <span class="self-center text-xl font-semibold whitespace-nowrap"
               >GetThatJob</span
             >
@@ -80,7 +80,7 @@
               </li>
               <li>
                 <a
-                  href="{%url 'applied_jobs'%}"
+                  href="{%url 'applied_jobs' %}"
                   class="block py-2 pl-3 pr-4 {%block jobhistorycolor %}{% endblock %} rounded hover:bg-yellow-100"
                   >Applied Jobs</a
                 >
